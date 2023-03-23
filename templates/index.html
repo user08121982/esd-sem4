@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Control Panel</title>
+    </head>
+    <body>
+        <h1>Welcome to the SMART HOME webpage</h1>
+        <h3>Contol Panel:</h3>
+        <pre>
+            Device 1    <a href="\a"><button id="b1" style="background-color: green; color: white;">Turn On</button></a>
+
+            Device 2    <a href="\b"><button id="b2" style="background-color: green; color: white;">Turn On</button></a>
+
+            Device 3    <a href="\c"><button id="b3" style="background-color: green; color: white;">Turn On</button></a>
+        </pre>
+        <script type="text/javascript">
+            if("{{st1}}"=="True"){
+                document.getElementById("b1").style.backgroundColor="red";
+                document.getElementById("b1").innerText="Turn Off";
+            }
+            if("{{st2}}"=="True"){
+                document.getElementById("b2").style.backgroundColor="red";
+                document.getElementById("b2").innerText="Turn Off";
+            }
+            if("{{st3}}"=="True"){
+                document.getElementById("b3").style.backgroundColor="red";
+                document.getElementById("b3").innerText="Turn Off";
+            }
+            if(window.location.pathname!="/")
+            window.location.replace("/");
+        </script>
+    </body>
+</html>
