@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import socket
 #import RPi.GPIO as GPIO
 
 app=Flask(__name__)
@@ -43,4 +44,4 @@ def d3Tog():
 
 if __name__=="__main__":
     print("Start")
-    app.run(host='192.168.43.189',port=5010)    # Give your IP address here
+    app.run(host=socket.gethostbyname(socket.gethostname()),port=5010)
