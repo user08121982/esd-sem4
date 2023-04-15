@@ -10,30 +10,40 @@
         <h1>Welcome to the SMART HOME webpage</h1>
         <h3>Contol Panel:</h3>
         <pre>
-            Device 1    <a href="\a"><button id="b1" style="background-color: green; color: white;">Turn On</button></a>
+            Device 1    <button id="b1" style="background-color: green; color: white;">Turn On</button>
 
-            Device 2    <a href="\b"><button id="b2" style="background-color: green; color: white;">Turn On</button></a>
+            Device 2    <button id="b2" style="background-color: green; color: white;">Turn On</button>
 
-            Device 3    <a href="\c"><button id="b3" style="background-color: green; color: white;">Turn On</button></a>
+            Device 3    <button id="b3" style="background-color: green; color: white;">Turn On</button>
         </pre>
         <script type="text/javascript">
-            if("{{st1}}"=="True"){
-                document.getElementById("b1").style.backgroundColor="red";
-                document.getElementById("b1").innerText="Turn Off";
+            function upd(bid,st){
+                if(st=="True"){
+                    document.getElementById(bid).style.backgroundColor="red";
+                    document.getElementById(bid).innerText="Turn Off";
+                }else{
+                    document.getElementById(bid).style.backgroundColor="green";
+                    document.getElementById(bid).innerText="Turn On";
+                }
             }
-            if("{{st2}}"=="True"){
-                document.getElementById("b2").style.backgroundColor="red";
-                document.getElementById("b2").innerText="Turn Off";
-            }
-            if("{{st3}}"=="True"){
-                document.getElementById("b3").style.backgroundColor="red";
-                document.getElementById("b3").innerText="Turn Off";
-            }
-            if(window.location.pathname!="/")
-            window.location.replace("/");
-            setInterval(() => {
-                location.reload()
-            }, 1000);
+            document.querySelectorAll('button').forEach(button => {
+                setInterval(() => {
+                    const request = new XMLHttpRequest();
+                    request.open('GET','/'+button.id);
+                    request.onload=()=>{
+                        upd(button.id,request.responseText);
+                    };
+                    request.send();
+                }, 1000);
+                button.onclick = () => {
+                    const request = new XMLHttpRequest();
+                    request.open('POST','/'+button.id);
+                    request.onload=()=>{
+                        upd(button.id,request.responseText);
+                    };
+                    request.send();
+                };
+            });
         </script>
     </body>
 </html>

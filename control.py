@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import socket
 #import RPi.GPIO as GPIO
 
@@ -19,28 +19,31 @@ print("Done")
 
 @app.route("/")
 def index():
-    return render_template('index.html',st1=s1,st2=s2,st3=s3)
+    return render_template('index.html')
 
-@app.route("/a")
+@app.route("/b1",methods=['GET','POST'])
 def d1Tog():
     global s1
-    s1=not s1
-    # GPIO.output(d1,s1)
-    return render_template('index.html',st1=s1,st2=s2,st3=s3)
+    if request.method=='POST':
+        s1=not s1
+        # GPIO.output(d1,s1)
+    return str(s1)
 
-@app.route("/b")
+@app.route("/b2",methods=['GET','POST'])
 def d2Tog():
     global s2
-    s2=not s2
-    # GPIO.output(d2,s2)
-    return render_template('index.html',st1=s1,st2=s2,st3=s3)
+    if request.method=='POST':
+        s2=not s2
+        # GPIO.output(d2,s2)
+    return str(s2)
 
-@app.route("/c")
+@app.route("/b3",methods=['GET','POST'])
 def d3Tog():
     global s3
-    s3=not s3
-    # GPIO.output(d3,s3)
-    return render_template('index.html',st1=s1,st2=s2,st3=s3)
+    if request.method=='POST':
+        s3=not s3
+        # GPIO.output(d3,s3)
+    return str(s3)
 
 if __name__=="__main__":
     print("Start")
