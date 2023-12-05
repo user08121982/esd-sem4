@@ -1,49 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Control Panel</title>
-    </head>
-    <body>
-        <h1>Welcome to the SMART HOME webpage</h1>
-        <h3>Contol Panel:</h3>
-        <pre>
-            Device 1    <button id="b1" class="cp" style="background-color: green; color: white;">Turn On</button>
 
-            Device 2    <button id="b2" class="cp" style="background-color: green; color: white;">Turn On</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Control Panel</title>
+</head>
 
-            Device 3    <button id="b3" class="cp" style="background-color: green; color: white;">Turn On</button>
+<body>
+    <h1>Welcome to the SMART HOME webpage</h1>
+    <h3>Contol Panel:</h3>
+    <pre>
+            Device 1    <button id="b0" class="cp" style="background-color: green; color: white;">Turn On</button>
+
+            Device 2    <button id="b1" class="cp" style="background-color: green; color: white;">Turn On</button>
+
+            Device 3    <button id="b2" class="cp" style="background-color: green; color: white;">Turn On</button>
         </pre>
-        <script type="text/javascript">
-            function upd(bid,st){
-                if(st=="True"){
-                    document.getElementById(bid).style.backgroundColor="red";
-                    document.getElementById(bid).innerText="Turn Off";
-                }else{
-                    document.getElementById(bid).style.backgroundColor="green";
-                    document.getElementById(bid).innerText="Turn On";
-                }
+    <script type="text/javascript">
+        function upd(bid, st) {
+            if (st == "True") {
+                document.getElementById(bid).style.backgroundColor = "red";
+                document.getElementById(bid).innerText = "Turn Off";
+            } else {
+                document.getElementById(bid).style.backgroundColor = "green";
+                document.getElementById(bid).innerText = "Turn On";
             }
-            document.querySelectorAll('button.cp').forEach(button => {
-                setInterval(() => {
-                    const request = new XMLHttpRequest();
-                    request.open('GET','/'+button.id);
-                    request.onload=()=>{
-                        upd(button.id,request.responseText);
-                    };
-                    request.send();
-                }, 1000);
-                button.onclick = () => {
-                    const request = new XMLHttpRequest();
-                    request.open('POST','/'+button.id);
-                    request.onload=()=>{
-                        upd(button.id,request.responseText);
-                    };
-                    request.send();
-                };
-            });
-        </script>
-    </body>
+        }
+        document.querySelectorAll('button.cp').forEach(button => {
+            setInterval(async () => {
+                const res = await (await fetch('/' + button.id[1], { method: 'GET' })).text();
+                upd(button.id, res);
+            }, 1000);
+            button.onclick = async () => {
+                const res = await (await fetch('/' + button.id[1], { method: 'POST' })).text();
+                upd(button.id, res);
+            };
+        });
+    </script>
+</body>
+
 </html>
